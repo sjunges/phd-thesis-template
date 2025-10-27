@@ -1,0 +1,114 @@
+\chapter{First chapter}
+\label{chap:first_chapter}
+\newsymboltopic{chapter_one}{First Chapter}
+
+\begin{assumptionbox}
+    In this chapter, we make the following assumptions.
+    \begin{itemize}
+        \item Each automaton has only a finite state space $S$.
+    \end{itemize}
+    We justify these restrictions throughout this chapter and also discuss approaches to lift them.
+\end{assumptionbox}
+
+
+\section{Colors}
+% Test colors
+\section{colors}
+\textcolor{CSblue}{This is color blue.}
+\textcolor{CSlightblue}{This is color light blue.}
+\textcolor{CSblack}{This is color black.}
+\textcolor{CSmagenta}{This is color magenta.}
+\textcolor{CSyellow}{This is color yellow.}
+\textcolor{CSgreen}{This is color green.}
+\textcolor{CSorange}{This is color orange.}
+\textcolor{CSred}{This is color red.}
+\textcolor{CSviolet}{This is color violet.}
+\textcolor{CSgrey}{This is color grey.}
+\textcolor{CSlightgrey}{This is color light grey.}
+
+
+% Test environments
+\section{Environments}
+
+\newcommand{\testMath}{
+Let $f$ be analytic in the region $G$ except for the isolated 
+singularities $a_1,a_2,\dots,a_m$. If $\gamma$ is a closed 
+rectifiable curve in $G$ which does not pass through any of the 
+points $a_k$ and if $\gamma\approx 0$ in $G$, then
+\[
+  \frac{1}{2\pi i}\int_\gamma\! f = \sum_{k=1}^m 
+  n(\gamma;a_k)Res(f;a_k)\,.
+\]
+}
+\question{Is this correct?}
+
+\begin{theorem}[Residue Theorem]
+    \testMath
+\end{theorem}
+\begin{lemma}[Residue Lemma]
+    \testMath
+\end{lemma}
+\begin{corollary}[Residue Corollary]
+    \testMath
+\end{corollary}
+\begin{proposition}[Residue Proposition]
+    \testMath
+\end{proposition}
+\begin{definition}[Residue Definition]
+    \testMath
+\end{definition}
+\begin{example}[Residue Example]
+    \testMath
+\end{example}
+\begin{remark}[Residue Remark]
+    \testMath
+\end{remark}
+\begin{problem}[Residue Problem]
+    \testMath
+\end{problem}
+\begin{constraint}{Residue constraint}
+    \testMath
+\end{constraint}
+
+
+\begin{displayquote}[Lorem ipsum~\cite{DBLP:journals/x/Turing37}]
+    This is supposed to be a quote:
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\end{displayquote}
+\feedback{Check if the quote is correct}
+
+
+
+\section{Sorting algorithm}
+We introduce \keyword{BubbleSort} as a sorting algorithm~\cite{DBLP:books/lib/Knuth97}.
+
+\newAlgorithm{bubblesort}{first_chapter/bubble_sort}{Bubblesort algorithm}
+The pseudo-code is given in \cref{alg:bubblesort}. 
+
+
+\section{Properties of resulting system}
+\label{sec:first_chapter_properties}
+We conclude this chapter by giving some helpful properties of the generated system.
+
+We start by showing that \highlight{the size of the resulting system is linear in the size of the original system}.
+\begin{lemma}[Size of system]
+    \label{lemma:size_system}
+    \rememberText{size_system}{%
+        System $\mathcal{S}$ has at most $9 \cdot \size{Q}$ states.
+    }%
+\end{lemma}
+\begin{proofsketch}
+    We give the precise number of states use this to bound the size of the system.
+    The complete proof is given in~\vref{proof:size_system}.
+\end{proofsketch}
+
+
+
+
+\newpage
+\begin{summary}
+    \item We introduced some things.
+    \item We proved some things.
+    \item We implemented some things.
+\end{summary}
+

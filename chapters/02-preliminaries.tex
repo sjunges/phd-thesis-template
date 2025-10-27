@@ -1,0 +1,62 @@
+\chapter{Preliminaries}
+\label{chap:preliminaries}
+
+
+
+
+\section{Basic Notation}
+\label{sec:prelim:basics}
+\towrite{define basic notation, check which things can be assumed and which things have to be defined}
+
+Let $\NN$ denote the set of natural numbers without zero and $\NNzero = \NN \cup \set{0}$ the set of natural numbers with zero.
+Further $\RR$ denotes the set of real numbers, $\RRnn = \set{r \in \RR \mid r \geq 0}$ the set of non-negative real numbers and $\RRplus = \RRnn \setminus \set{0}$ the set of positive real numbers.
+If not further specified, intervals are over the real numbers and of the form $[a,b] \subseteq \RR$.
+
+\towrite{$\unionDisjoint$, $\powerset{X}$}
+
+\begin{definition}[Sequence]
+    \label{def:sequence}
+    \newsymboltopic{sequence}{Sequence}
+    Let $K$ be a finite set.
+    A (finite) \keyword{sequence} $\newsymbol{sequence}{sequence}{\sequence}{Sequence}$ over $K$ is given as $\sequence = k_1 k_2 \dots k_n$ with $k_i \in K$ for all $1 \leq i \leq n$.
+    The set of all \keyword{sequences} over $K$ is denoted by $\kleene{K}$.
+\end{definition}
+We use $\sequence_i$ to denote the $i$-th item of a sequence $\sequence$ and $k \in \sequence$ as shorthand for $\exists i \in \NN: \sequence_i = k$.
+We use $\sequence' \subseq \sequence$ to indicate that sequence $\sequence' = k_1 k_2 \dots k_m$ is a \keyword[sequence]{prefix} of sequence $\sequence = k_1 k_2 \dots k_m k_{m+1} \dots k_n$, $n\geq m$.
+For a sequence $\sequence = k_1 \dots k_{n-1} k_{n}$ we use $\newsymbol{sequence}{prevseq}{\seqprev{\sequence}}{Prefix of sequence $\sequence$ without last element} = k_1 \dots k_{n-1}$ to denote the \highlight{prefix of $\sequence$ without the last element}.
+
+\question{infinite sequence needed?}
+%A sequence is \keyword[sequence]{finite} if it is of the form $\sequence = k_1 k_2 \dots k_{n-1} k_n$ for $n \in \NN$ and infinite otherwise.
+The \keyword[sequence]{size} (or length) of a finite sequence $\sequence = k_1 \dots k_n$ is given by $\newsymbol{sequence}{size}{\size{\sequence}}{Size of sequence $\sequence$} = n$.
+The \keyword[sequence]{empty sequence} is given by $\newsymbol{sequence}{empty}{\eps}{Empty sequence}$ and its size is $\size{\eps}=0$.
+
+To ease notation we introduce the shorthand $\kleeneBr{K, L} := \kleeneBr{\set{\tuple{k, l} \in K \times L}}$ to denote a sequence over tuples $\tuple{K, L}$.
+
+
+\section{Automata}
+\label{sec:prelim:automata}
+\newsymboltopic{dfa}{Automata}
+The base model throughout this thesis is a \highlight{deterministic finite automaton}.
+
+\begin{definition}[Deterministic Finite Automaton (DFA)]
+    \label{def:dfa}
+	A \keywordpl{Deterministic finite automaton (DFA)}{Deterministic finite automaton} is a 5-tuple $\newsymbol{dfa}{dft}{\mathcal{M}}{Deterministic finite automaton} = (Q, \Sigma, \delta, q_0, F)$, where
+    \begin{itemize}
+        \item $\newsymbol{dfa}{states}{Q}{States}$ is a finite set of \keyword[Deterministic finite automaton]{states}.
+        \item $\newsymbol{dfa}{alphabet}{\Sigma}{Alphabet}$ is a finite set of input symbols called the \keyword[Deterministic finite automaton]{alphabet}.
+        \item $\newsymbol{dfa}{transitions}{\delta}{Transition function}: Q \times \Sigma \to Q$ is a \keyword[Deterministic finite automaton]{transition function}.
+        \item $\newsymbol{dfa}{initial}{q_0}{Initial state} \in Q$ is the \keyword[Deterministic finite automaton]{initial state}.
+        \item $\newsymbol{dfa}{accepting}{F}{Accepting states} \subseteq Q$ is a finite set of \keyword[Deterministic finite automaton]{accepting states}.
+    \end{itemize}
+\end{definition}
+
+\tikzFigure{prelim_ex_dfa}{prelim/example_automaton}{Example automaton}
+\begin{example}[Automaton]
+    We depict an example automaton in~\cref{fig:prelim_ex_dfa}.
+\end{example}
+
+\section{Turing machine}
+\label{sec:prelim:turing_machine}
+Next, we introduce Turing machines~\cite{DBLP:journals/x/Turing37}.
+
+\towrite{Write more}

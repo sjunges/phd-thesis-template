@@ -1,0 +1,127 @@
+% ==============================================
+% Ph.D. thesis template
+%
+% Initial version by Sebastian Junges (2019)
+% Revisions by Matthias Volk (2019)
+% ==============================================
+
+
+% Use KOMA script
+\documentclass[
+    fontsize=10pt,
+    paper=b5,
+    openright,
+    DIV=11,
+    BCOR=9mm,
+    numbers=noenddot,
+    footheight=12pt,
+    headinclude=true,
+    footinclude=false,
+    index=totoc,
+    bibliography=totoc,
+    %fleqn % Left-align equations
+    ]{scrbook}
+
+
+% TODO: Change accordingly
+\newcommand{\TITLE}{My PhD thesis}
+\newcommand{\AUTHOR}{Firstname Lastname}
+
+
+% Load packages
+\input{packages}
+% Load helper macros
+\input{macros}
+% Bibliographies must be added before presets
+\addbibresource{own_publications.bib} % Load own publications
+\addbibresource{literature.bib} % Load general bibliography
+% Load style
+\input{style/presets}
+% Load tikz files
+\input{style/tikz/tikz}
+\input{style/tikz/plots}
+% Load custom commands
+\input{commands}
+
+
+%%%%%%%%%%%
+% Title page
+%%%%%%%%%%%
+\title{\TITLE}
+\subtitle{}
+
+% Include only necessary chapters for faster compilation
+\ifdefined\IncludeOnly
+    \includeonly{\IncludeOnly, appendix/bibliography}
+\fi
+
+% Main document
+\begin{document}
+
+\iftoggle{title}{
+    % Title page
+    \frontmatter
+    \maketitle
+
+    % Abstract
+    \subincludefrom{chapters/}{00-abstract}
+
+    % Acknowledgements
+    \subincludefrom{preface/}{acknowledgements}
+}{}
+
+% TOC
+\iftoggle{toc}{
+    \tableofcontents
+}{}
+
+
+%%%%%%%%%%%
+% Main part with all chapters
+%%%%%%%%%%%
+\mainmatter
+
+% Test pages for debugging and checking colours
+\iftoggle{debug}{
+    \partThumbs{Tests for Debugging}
+    \subincludefrom{debug/}{test_chapter}
+}{}
+
+\partThumbs{Introduction}
+\label{part:intro}
+\subincludefrom{chapters/}{01-introduction}
+\subincludefrom{chapters/}{02-preliminaries}
+
+\partThumbs{First Part}
+\label{part:first_part}
+\subincludefrom{chapters/}{11-first_chapter}
+
+\partThumbs{Conclusion}
+\label{part:conclusion}
+\subincludefrom{chapters/}{21-conclusion}
+
+%%%%%%%%%%%
+% Appendices
+%%%%%%%%%%%
+\partThumbs{Appendices}
+\appendix
+
+%\backmatter % Disabled to have numbering in appendix
+
+% Bibliography
+\subincludefrom{appendix/}{bibliography}
+
+\subincludefrom{appendix/}{proofs}
+\subincludefrom{appendix/}{evaluation}
+
+% Notation
+\iftoggle{notation}{
+    \subincludefrom{appendix/}{notation}
+}{}
+
+% Index
+\iftoggle{index}{
+    \subincludefrom{appendix/}{index}
+}{}
+
+\end{document}

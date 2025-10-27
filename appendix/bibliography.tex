@@ -1,0 +1,40 @@
+%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%
+\nocite{*} % Add literature which was not cited
+
+% We divide the reference into reference by others and references by us
+\chapter{Bibliography}
+% List of references by others
+\section{References}
+\newrefcontext[sorting=anyt] % Publications are sorted by label
+\printbibliography[
+    title=,
+    keyword=other,
+    heading=none,
+    category=cited
+]
+\clearpage
+
+% List of own publications (split into cited publications and further publications)
+\section{Co-authored Publications}
+\label{sec:own_publications}
+\newrefcontext[sorting=ynt] % Own publications are sorted according to year
+% Cited own publications
+\subsection*{Cited publications}
+\printbibliography[
+    env=bibliographyNUM,
+    title=,
+    keyword=own, % Only own publications
+    heading=none, % No heading needed as we defined a section already
+    category=cited,
+    resetnumbers]
+% Further own publications
+\subsection*{Further peer-reviewed publications}
+\printbibliography[
+    env=bibliographyNONUM,
+    title=,
+    keyword=own,
+    heading=none,
+    notcategory=cited]
+\cleardoublepage

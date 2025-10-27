@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+    \node[state, initial, initial text=]                            (s0)  {$s_0$};
+    \node[state, right=1cm of s0, yshift=-1cm]                      (s1)  {$s_1$};
+    \node[right=1cm of s1, yshift=2.5cm]                            (i11) {};
+    \node[right=1cm of s1]                                          (i12) {};
+    \node[state, right=2cm of s1, yshift=2.0cm]                     (s2)  {$s_2$};
+    \node[state, right=2cm of s1, yshift=0.7cm]                     (s3)  {$s_3$};
+    \node[state, right=2cm of s1, yshift=-0.7cm]                    (s4)  {$s_4$};
+    \node[state, right=1cm of s2, label=right:{$\set{\text{eat}}$}] (s5)  {$s_5$};
+    \node[state, right=1cm of s3, label=right:{$\set{\text{eat}}$}] (s6)  {$s_6$};
+    \node[state, right=1cm of s4, label=right:{$\set{\text{eat}}$}] (s7)  {$s_7$};
+
+    \draw[->] (s0)  -- node[below]                        {$1$}                (s1);
+    \draw[->] (s0)  -- node[above]                        {$4$}                (s2);
+    \draw[->] (s1)  -- node[near end,above,xshift=-0.2cm] {cafe}               (i11);
+    \draw[->] (s1)  -- node[near end,below,xshift=-0.2cm] {bake}               (i12);
+    \draw[->] (i11) -- node[above]                        {$1$}                (s2);
+    \draw[->] (i12) -- node[above]                        {$\nicefrac{1}{10}$} (s3);
+    \draw[->] (i12) -- node[below]                        {$\nicefrac{9}{10}$} (s4);
+    \draw[->] (s2)  -- node[above]                        {$40$}               (s5);
+    \draw[->] (s3)  -- node[above]                        {$60$}               (s6);
+    \draw[->] (s4)  -- node[above]                        {$30$}               (s7);
+ \end{tikzpicture}

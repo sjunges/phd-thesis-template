@@ -1,0 +1,93 @@
+% Style for pgfplots
+
+\pgfplotsset{
+    %compat=1.15,
+    % Set style
+    general plot style/.style={
+        axis x line=bottom, axis y line=left,
+        x label style={at={(axis description cs:0.5,-0.05)},anchor=north},
+        y label style={at={(axis description cs:0.05,0.5)},anchor=south},
+        yticklabel style={font=\footnotesize}, xticklabel style={rotate=290, anchor=west, font=\footnotesize},
+        legend style={font=\footnotesize},
+    },
+    quantile plot style/.style={
+        general plot style,
+        width=0.95\textwidth, height=8cm,
+        ytick={0.1, 1, 10, 60, 600, 3600}, yticklabels={0.1s, 1s, 10s, 1m, 10m, 1h},
+    },
+    scatter plot style/.style={
+        general plot style,
+        width=7cm, height=7cm,
+        x label style={at={(axis description cs:0.5,-0.04)},anchor=north},
+        y label style={at={(axis description cs:0.10,0.5)},anchor=south},
+        extra x tick labels = {\TO, \MO, \ERR},
+        extra x tick style = {grid = major},
+        extra y tick labels = {\TO, \MO, \ERR},
+        extra y tick style = {grid = major},
+    },
+    scatter plot times style/.style={
+        scatter plot style,
+        xmin=0.05, ymin=0.05, xmax=14400, ymax=14400,
+        x label style={at={(axis description cs:0.5,-0.02)},anchor=north},
+        xtick={0.1, 1, 60, 600, 1800}, xticklabels={0.1, 1, 60, 600, 1800},
+        ytick={0.1, 1, 60, 600, 1800}, yticklabels={0.1, 1, 60, 600, 1800},
+        extra x ticks = {3600, 7200, 14400},
+        extra y ticks = {3600, 7200, 14400},
+    },
+    scatter plot states style/.style={
+        scatter plot style,
+        xmin=1, ymin=1, xmax=160000000, ymax=160000000,
+        xtick={10, 100, 1000, 10000, 100000, 1000000, 10000000}, xticklabels={10,100, 1k, 10k, 100k, 1m, 10m},
+        ytick={10, 100, 1000, 10000, 100000, 1000000, 10000000}, yticklabels={10,100, 1k, 10k, 100k, 1m, 10m},
+        extra x ticks = {40000000, 80000000, 160000000},
+        extra y ticks = {40000000, 80000000, 160000000},
+    },
+}
+
+% Markers for plots
+\tikzset{%
+    % Tools
+    toolA/.style={color=Set1-A, mark=*},
+    toolB/.style={color=Set1-B, mark=square*},
+    toolC/.style={color=Set1-C, mark=triangle*},
+    toolD/.style={color=Set1-D, mark=diamond*},
+    toolE/.style={color=Set1-E, mark=pentagon*},
+    toolF/.style={color=Dark2-F,mark=halfcircle*},
+    toolG/.style={color=Set1-G, mark=o},
+    toolH/.style={color=Set1-H, mark=x},
+    toolI/.style={color=Set1-I, mark=square},
+    % Benchmarks
+    benchA/.style={Dark2-A,mark=square*,  mark size=1.30},
+    benchB/.style={Dark2-B,mark=triangle*,mark size=1.30},
+    benchC/.style={Dark2-C,mark=*,        mark size=1.30},
+    benchD/.style={Dark2-D,mark=diamond*, mark size=1.30},
+    benchE/.style={Dark2-E,mark=pentagon*,mark size=1.30},
+    benchF/.style={Dark2-F,mark=oplus*,   mark size=1.30},
+    benchG/.style={Dark2-H,mark=otimes*,  mark size=1.30},
+    benchH/.style={Dark2-A,mark=square,   mark size=1.30},
+    benchI/.style={Dark2-B,mark=triangle, mark size=1.30},
+    benchJ/.style={Dark2-C,mark=o,        mark size=1.30},
+    benchK/.style={Dark2-D,mark=diamond,  mark size=1.30},
+    benchL/.style={Dark2-E,mark=pentagon, mark size=1.30},
+    benchM/.style={Dark2-F,mark=oplus,    mark size=1.30},
+    benchN/.style={Dark2-H,mark=otimes,   mark size=1.30},
+}
+
+% Diagonal lines
+\newcommand*{\diagonalsTimes}{
+    % Diagonal lines
+    \addplot[no marks] coordinates
+        {(0.05,0.05) (3600,3600) };
+    \addplot[no marks, dashed] coordinates
+        {(0.05,0.5) (360,3600) };
+    \addplot[no marks, dashed] coordinates
+        {(0.05,5) (36,3600) };
+}
+\newcommand*{\diagonalsStates}{
+    \addplot[no marks] coordinates
+        {(1, 1) (40000000,40000000) };
+    \addplot[no marks, dashed] coordinates
+        {(1,10) (4000000,40000000) };
+    \addplot[no marks, dashed] coordinates
+        {(1,100) (400000,40000000) };
+}

@@ -1,0 +1,293 @@
+% Helper macros
+
+
+%%%%%%%%%%%
+% Toggles to enable/disable certain parts
+%%%%%%%%%%%
+\newtoggle{debug}
+\newtoggle{title}
+\newtoggle{toc}
+\newtoggle{notation}
+\newtoggle{index}
+\ifdefined\Debug
+    \toggletrue{debug}
+\else
+    \togglefalse{debug}
+\fi
+\ifdefined\noTitle
+    \togglefalse{title}
+\else
+    \toggletrue{title}
+\fi
+\ifdefined\noTOC
+    \togglefalse{toc}
+\else
+    \toggletrue{toc}
+\fi
+\ifdefined\noNotation
+    \togglefalse{notation}
+\else
+    \toggletrue{notation}
+\fi
+\ifdefined\noIndex
+    \togglefalse{index}
+\else
+    \toggletrue{index}
+\fi
+
+
+%%%%%%%%%%%
+% Comments and todos
+%%%%%%%%%%%
+\newcommand{\colorpar}[3]{\colorbox{#1}{\parbox{#2}{#3}}}
+% Remark inline filling complete line
+\newcommand{\lineremark}[3]{\colorpar{#2}{\linewidth}{\color{#1}#3}\newline}
+% Remark in page margin
+\newcommand{\marginremark}[3]{\marginpar{\colorpar{#2}{\linewidth}{\color{#1}#3}}}
+% Boxes for writing todos, general todos and questions
+\newcommand{\towrite}[1]{\lineremark{colorTodo}{colorTodoFill}{\textbf{[WRITE]}: #1}}
+\newcommand{\todo}[1]{\colorbox{colorTodoFill}{\textcolor{colorTodo}{\textbf{[TODO]}: #1}}}
+\newcommand{\question}[1]{\marginremark{colorQuestion}{colorQuestionFill}{\small{\textbf{[Q?]}: #1}}}
+\newcommand{\feedback}[1]{\marginremark{colorFeedback}{colorFeedbackFill}{\small{\textbf{[Fdb]}: #1}}}
+
+
+%%%%%%%%%%%
+% Index
+%%%%%%%%%%%
+% Create text in margin
+\newcommand{\keywordmarginnote}[1]{%
+    \marginnote{\setstretch{.6}\parbox[t]{.8\marginparwidth}{\textcolor{colorKeywordMargin}{\textsf{\scriptsize{#1}}}}}%
+}%
+
+% Add index entry with optional parent entry
+\newcommand{\indexentry}[2][]{%
+    \ifthenelse{\equal{#1}{}}{\index{#2}}{\index{#1!#2}}%
+}%
+\newcommand{\indexentrybf}[2][]{\indexentry[#1]{#2|textbf}}
+%
+% Add text with index entry
+% Usage:
+% \indextext[parent]{text}
+% \indextextpl[parent]{text}{indextext}
+\newcommand{\indextextpl}[3][]{\emph{#2}\indexentry[#1]{#3}}
+\newcommand{\indextext}[2][]{\indextextpl[#1]{#2}{#2}}
+
+% Create keyword with margin text and index entry
+% Usage:
+% \keyword[parent]{text/margintext/indextext}
+% \keywordpl[parent]{text}{margintext/indextext}
+% \keywordindex[parent]{text}{margintext}{indextext}
+% - parent (if provided) is the parent index
+% - text is the name used in the text
+% - margintext is the name of the keyword used in the margin
+% - indextext is the name used in the index
+\newcommand{\keywordindex}[4][]{%
+    \indextextpl[#1]{\textcolor{colorKeywordText}{#2}}{#4|textbf}% create text and index
+    \ifthenelse{\equal{#1}{}}{\keywordmarginnote{#3}}{\keywordmarginnote{$\cdot$#3}}% create margin
+}%
+\newcommand{\keywordpl}[3][]{\keywordindex[#1]{#2}{#3}{#3}}
+\newcommand{\keyword}[2][]{\keywordpl[#1]{#2}{#2}}
+
+\iftoggle{index}{
+    % Index
+    % Style file is added in .latexmkrc
+    \makeindex[title={Index\label{index}}]
+    \indexsetup{level=\chapter,toclevel=chapter}
+}{}
+
+%%%%%%%%%%%
+% Glossary (for list of symbols)
+%%%%%%%%%%%
+
+% Create topic for list of symbols
+\newcommand{\newsymboltopic}[2]{%
+    \newglossaryentry{#1}{%
+        name={#2},
+        description={},
+        type=symbols,
+        parent={}
+    }%
+    %\gls{#1}%
+}
+
+% Create symbol entry for list of symbols.
+% Usage:
+% \newglosssymbol{parent}{label}{symbol}{description}
+% The 'parent' label must reference a topic created with \newsymboltopic
+\newcommand{\newglosssymbol}[4]{%
+    \newglossaryentry{#1:#2}{%
+        name=\ensuremath{#3}, % symbol needs to be in math mode
+        description={#4},
+        type=symbols,
+        %symbol={#3},
+        parent={#1}
+    }%
+}
+% Display symbol at current position.
+% Usage:
+% \glosssymbol{parent}{label}
+\newcommand{\glosssymbol}[2]{%
+    \gls{#1:#2}%
+}
+
+% Create symbol for list of symbols and display it at current position.
+% Usage:
+% \newsymbol{parent}{label}{symbol}{description}
+% The 'parent' label must reference a topic created with \newsymboltopic
+\newcommand{\newsymbol}[4]{%
+    \newglosssymbol{#1}{#2}{#3}{#4}%
+    \glosssymbol{#1}{#2}%
+}
+
+% Define a new glossary type
+\iftoggle{notation}{
+    % Glossary
+    \makeglossaries
+}{}
+
+
+
+%%%%%%%%%%%
+% Tikz
+%%%%%%%%%%%
+
+% External tikz
+% must be loaded after \makeindex, otherwise it will not compile
+% remove command \includepdf which otherwise leads to compilation issues
+\tikzexternalize[prefix=tikz_extern/,optimize command away=\includepdf]
+
+% Overwrite compile command to allow setting of output directory
+\makeatletter
+    \tikzset{%
+        external/shell escape={-shell-escape\space-output-directory="\OutputDir/"},%
+        /pgf/images/include external/.code={%
+            \includegraphics{\OutputDir/#1}%
+        },%
+    }
+\makeatother
+
+% Tikz picture (without float environment)
+% Arguments:
+% 1. Name which will be used for filename
+% 2. Name which will be used for label
+% 3. Input filename in tikz/ directory
+% 4. Caption
+\newcommand{\tikzPicture}[4]{%
+    \tikzsetnextfilename{#1}
+    \input{figures/#3}
+    \caption{#4}
+    \label{#2}%
+}
+% Tikz figure
+% Arguments:
+% 1. Name which will be used for filename and label
+% 2. Input filename in tikz/ directory
+% 3. Caption
+% 4. Positioning
+\newcommand{\tikzFigurePos}[4]{%
+    \begin{figure}[#4]%
+        \centering
+        \tikzPicture{#1}{fig:#1}{#2}{#3}
+    \end{figure}%
+}%
+\newcommand{\tikzFigure}[3]{%
+    \tikzFigurePos{#1}{#2}{#3}{t}%
+}%
+% Tikz subfigure
+% Arguments:
+% 1. Name which will be used for filename and label
+% 2. Input filename in tikz/ directory
+% 3. Caption
+% 4. Width
+\newcommand{\tikzSubfigure}[4]{%
+    \begin{subfigure}[b]{#4}
+        \centering
+        \tikzPicture{#1}{subfig:#1}{#2}{#3}
+    \end{subfigure}%
+}
+
+
+%%%%%%%%%%%
+% Table
+%%%%%%%%%%%
+
+% Table
+% Arguments:
+% 1. Name which will be used for label
+% 2. Input filename in tables/ directory
+% 3. Caption
+\newcommand{\newTable}[3]{%
+    \begin{table}[t]%
+        \centering
+        \caption{#3}
+        \label{tab:#1}
+        \input{tables/#2}%
+    \end{table}%
+}%
+% Table with notes
+\newcommand{\newTableNotes}[3]{%
+    \begin{table}[t]%
+        \centering
+        \begin{threeparttable}[t]%
+            \centering
+            \caption{#3}
+            \label{tab:#1}
+            \input{tables/#2}%
+        \end{threeparttable}%
+    \end{table}%
+}%
+
+
+%%%%%%%%%%%
+% Algorithm
+%%%%%%%%%%%
+
+% Algorithm
+% Arguments:
+% 1. Name which will be used for label
+% 2. Input filename in algorithms/ directory
+% 3. Caption
+\newcommand{\newAlgorithm}[3]{%
+    \begin{algorithm}[t]%
+        \centering
+        \caption{#3}
+        \label{alg:#1}
+        \input{algorithms/#2}%
+    \end{algorithm}%
+}%
+
+
+%%%%%%%%%%%
+% Misc
+%%%%%%%%%%%
+
+% Highlight text
+\newcommand{\highlight}[1]{\textcolor{colorHighlight}{#1}}
+
+% Chapter thumbs
+\newcommand{\partThumbs}[1]{\chapterthumbsoff\part{#1}\chapterthumbson}
+
+% Full reference including name
+\newcommand*{\cfullref}[1]{\hyperref[{#1}]{\Cref*{#1} (\nameref{#1})}}
+\newcommand*{\vfullref}[1]{\hyperref[{#1}]{\Vref*{#1} (\nameref{#1})}}
+
+% Store text to use later
+% Arguments:
+% 1. Label to reference the stored text
+% 2. Text to store
+\newcommand*{\rememberText}[2]{\Copy{rem:#1}{#2}}
+% Restate remembered text
+% Argument:
+% - Label used to reference the stored text
+\newcommand*{\restateText}[1]{\Paste{rem:#1}}
+
+% Restate theorem/lemma/... in appendix
+% Arguments:
+% 1. Label used to reference the theorem/lemma/...
+% 2. Label used to reference the stored text of the theorem/lemma/... The proof will get the same label with prefix "proof:"
+\newcommand*{\appendixRestate}[2]{\subsection{Proof of~\cref{#1}}\label{proof:#2}
+We have to show~\vref{#1}:
+\begin{restatebox}%
+    \restateText{#2}%
+\end{restatebox}%
+}

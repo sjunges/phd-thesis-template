@@ -1,0 +1,443 @@
+% Style configuration
+
+%%%%%%%%%%%
+% Fonts
+%%%%%%%%%%%
+% We use Linux Libertine as main font
+\KOMAoptions{DIV=last} % recalculate margins
+\setmainfont{Linux Libertine O}
+\setsansfont{Linux Biolinum O}
+\setmonofont[Scale=0.875]{Droid Sans Mono}
+
+% Abbreviations (from "foreign" package) are not italicized
+\renewcommand{\foreignabbrfont}{}
+
+\emergencystretch=1em % Try to avoid over-full boxes
+
+% Table of contents
+\setcounter{tocdepth}{2}
+% Section numbers
+\setcounter{secnumdepth}{3}
+
+
+%%%%%%%%%%%
+% Colours
+%%%%%%%%%%%
+
+\input{style/color_scheme} % Set colour scheme
+\input{style/colors} % Set used colours
+
+
+%%%%%%%%%%%
+% Debug
+%%%%%%%%%%%
+\iftoggle{debug}{
+    \overfullrule=2cm % Show overfull hboxes with black line in margin
+}{}
+
+
+%%%%%%%%%%%
+% Layout
+%%%%%%%%%%%
+\patchcmd{\part}{\thispagestyle{plain}}{\thispagestyle{empty}}{}{}
+
+% Header
+\clearpairofpagestyles
+\ihead{\headmark}
+\ohead*{\pagemark}
+
+\makeatletter
+\newcommand{\l@summary}[2]{%
+    \begingroup%
+        \let\@dotsep\@M%
+        \csname l@#2\endcsname{#1}{}%
+    \endgroup%
+}%
+\newcommand{\desctotoc}[1]{%
+    \addtocontents{toc}{%
+        \unexpanded{%
+            \unexpanded{%
+                {\small#1\par\medskip}%
+            }%
+        }%
+    }%
+}%
+
+% Chapter and subtitle
+\let\LaTeXStandardChapter\chapter%
+
+\NewDocumentCommand{\chaptersubtitlefont}{+m}{%
+    {\large \bfseries #1}%
+}%
+
+\RenewDocumentCommand{\chapter}{s+o+m+o}{%
+    \IfBooleanTF{#1}{%
+        \LaTeXStandardChapter*{#3}%
+    }{%
+        \IfNoValueTF{#4}{%
+            \IfNoValueTF{#2}{%
+                \LaTeXStandardChapter{#3}%
+            }{%
+                \LaTeXStandardChapter[#3]{#3}%
+            }%
+        }{%
+            \IfNoValueTF{#2}{%
+                \LaTeXStandardChapter[#3]{#3\\ \chaptersubtitlefont{#4}}%
+            }{%
+                \LaTeXStandardChapter[#3]{#3\\ \chaptersubtitlefont{#4}}%
+            }%
+        }%
+    }%
+    \IfValueTF{#4}{%
+        \desctotoc{#4}%
+    }{%
+        %\desctotoc{}%
+    }%
+}%
+
+\makeatother
+
+
+% Fonts for headings
+\addtokomafont{disposition}{\rmfamily\mdseries}
+\addtokomafont{chapterprefix}{\large}
+\setkomafont{dictumtext}{\normalfont\normalcolor\itshape\setlength{\parindent}{1em}\noindent}
+\addtokomafont{subsubsection}{\normalfont\bfseries}% change font settings for paragraph heading
+\addtokomafont{paragraph}{\normalfont\bfseries}
+\RedeclareSectionCommand[afterskip=-.5em]{paragraph}% change horizontal skip after paragraph heading
+\renewcommand{\sectioncatchphraseformat}[4]{%
+    \Ifstr{#1}{paragraph}
+    {\hskip #2#3#4\hskip .5em{\normalfont\textbar}}% new definition for paragraph heading
+    {\hskip #2#3#4}% original definition for other levels like subparagraph
+}
+
+% Chapter thumb
+\AddLayersToPageStyle{@everystyle@}{chapterthumb}
+\addtokomafont{chapterthumb}{\bfseries}
+
+% List indent
+\setlist[itemize,1]{leftmargin=.175in}
+
+% Tables
+\setlength{\tabcolsep}{3pt}
+\setlength{\arraycolsep}{2pt}
+
+% Hyperref
+\hypersetup{
+    colorlinks=true,
+    linkcolor=colorLink,
+    citecolor=colorCite,
+    pdftitle=\TITLE{},
+    pdfauthor=\AUTHOR{}
+}
+
+% Quotes
+% Add quotation marks for environments "displayquote" and related:
+\renewcommand{\mkbegdispquote}[2]{\openautoquote}
+\renewcommand{\mkenddispquote}[2]{\closeautoquote#1#2}
+
+
+
+%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%
+
+\renewcommand*{\citesetup}{%
+    \biburlsetup
+    \frenchspacing
+}
+
+% Define two different bibliographies (general and own publications) with different labels
+\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{#1}}
+\renewbibmacro*{cite}{%
+    \printtext[bibhyperref]{%
+        \printfield{labelprefix}%
+        \ifkeyword{own}%
+        {%
+            \printfield{labelnumber}%
+        }{%
+            \printfield{labelalpha}%
+            \printfield{extraalpha}%
+        }%
+    }%
+}
+
+% Bibliography with numbered labels
+\defbibenvironment{bibliographyNUM}
+{%
+    \list%
+    {%
+        \printtext[labelnumberwidth]{%
+            \printfield{prefixnumber}%
+            \printfield{labelnumber}%
+        }%
+    }{%
+    \setlength{\labelwidth}{\labelnumberwidth}%
+    \setlength{\leftmargin}{\labelwidth}%
+    %\addtolength{\leftmargin}{\labelsep}%
+    \setlength{\labelsep}{\biblabelsep}%
+    \setlength{\itemsep}{\bibitemsep}%
+    \setlength{\parsep}{\bibparsep}%
+    }%
+    \renewcommand*{\makelabel}[1]{\hss##1}%
+}{\endlist}{\item}
+
+% Bibliography with non-numbered labels
+\defbibenvironment{bibliographyNONUM}%
+{%
+    \list%
+    {}%
+    {%
+        \setlength{\leftmargin}{\bibhang}%
+        \setlength{\itemindent}{-\leftmargin}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}%
+    }%
+}{\endlist}{\item}
+
+% Source of bibliography
+% Papers from oneself are given the additional tag 'own', other paper are tagged 'other'
+% TODO: Change to own surname
+\DeclareSourcemap{
+    \maps[datatype=bibtex]{
+    \map[overwrite]{
+        \step[fieldsource=author, notmatch=\regexp{Knuth}, final]
+        \step[fieldsource=keywords, match=\regexp{\A.+\Z}, final]
+        \step[fieldset=keywords, fieldvalue={,other}, append]
+    }
+    \map{
+        \step[fieldsource=author, notmatch=\regexp{(Knuth)}, final]
+        \step[fieldset=keywords, fieldvalue=other, append]
+    }
+    \map[overwrite]{
+        \step[fieldsource=author, match=\regexp{(Knuth)}, final]
+        \step[fieldsource=keywords, match=\regexp{\A.+\Z}, final]
+        \step[fieldset=keywords, fieldvalue={,own}, append]
+    }
+    \map{
+        \step[fieldsource=author, match=\regexp{(Knuth)}, final]
+        \step[fieldset=keywords, fieldvalue=own]
+    }
+  }
+}
+
+\defbibheading{subbibliography}[\refname]{\section*{#1}}
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
+
+\assignrefcontextkeyws[sorting=ynt]{own}
+
+\makeatletter
+% Full citation
+\DeclareCiteCommand{\bfullcite}
+{\usebibmacro{prenote}}
+{
+    \renewcommand*{\newunitpunct}{\addcomma\space}%
+    \defcounter{maxnames}{99}%
+    \defcounter{minnames}{99}%
+    \settoggle{blx@useauthor}{false}%
+    \settoggle{blx@useeditor}{false}%
+    \settoggle{blx@usetranslator}{false}%
+    \usedriver%
+    {%
+        \DeclareNameAlias{sortname}{default}%
+    }{%
+        \thefield{entrytype}%
+    }%
+}%
+{\multicitedelim}%
+{\usebibmacro{postnote}}%
+\makeatother
+
+% Bibliography style
+\renewcommand*{\labelalphaothers}{\textsuperscript{+}}%
+\renewbibmacro{in:}{}%
+\DeclareFieldFormat*{title}{\mkbibquote{\textsl{#1}\isdot}}%
+\DeclareFieldFormat*{year}{#1\isdot}%
+\AtEveryBibitem{% Clean up the bibtex rather than editing it
+    \clearlist{address}%
+    \clearlist{location}%
+    \clearfield{isbn}%
+    \clearfield{issn}%
+}%
+
+
+
+%%%%%%%%%%%
+% Theorem settings
+%%%%%%%%%%%
+
+%% theorem settings
+\theorembodyfont{}      
+%\theoremsymbol{\ensuremath{\triangle}}
+\theoremprework{}
+\theorempostwork{}
+\theoremseparator{\newline}
+
+\newtheorem{thmcounter}{thmcounter}[chapter]
+\newtheorem{deficounter}{deficounter}[chapter]
+\newtheorem{excounter}{excounter}[chapter]
+\newtheorem{remcounter}{remcounter}[chapter]
+
+% Theorems, lemmas, ...
+\theoremstyle{plain}
+\newtheorem{theorem}[thmcounter]{Theorem}
+\newtheorem{lemma}[thmcounter]{Lemma}
+\newtheorem{corollary}[thmcounter]{Corollary}
+\newtheorem{proposition}[thmcounter]{Proposition}
+
+% Definitions, remarks, examples, ...
+\theorembodyfont{\normalfont}
+\newtheorem{definition}[deficounter]{Definition}
+\newtheorem{example}[excounter]{Example}
+\newtheorem{remark}[remcounter]{Remark}
+\newtheorem{problem}{Problem}[chapter]
+
+% Custom constraints
+\newcounter{constraintcounter}
+\newtheorem{constraint}[constraintcounter]{Constraint}
+\crefname{constraint}{Constraint}{Constraints} % Define naming for cleveref
+% Define custom environment which automatically sets labelname for correct \nameref
+\makeatletter
+\newenvironment{custom_constraint}[1]{\begin{constraint}[#1]\let\@currentlabelname\constraintname}{\end{constraint}}
+\makeatother
+
+% Proofs
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\normalfont\itshape}
+\theorembodyfont{\normalfont}
+\theoremseparator{.\,}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{proofsketch}{Proof (sketch)}
+
+
+%%%%%%%%%%%
+% Environment boxes
+%%%%%%%%%%%
+
+% Set general styles
+\tcbset{
+    colorboxbase/.style={
+        breakable, % allow multi page boxes
+        boxsep=0mm,
+        left=3mm,
+        before skip=0.5\baselineskip,
+        after skip=0.5\baselineskip,
+        after={}
+    },
+    boxbackground/.style={
+        enhanced,
+        colorboxbase,
+        top=2mm,
+        bottom=2mm,
+        right=2mm,
+        frame hidden % disable borders
+    },
+    boxline/.style={
+        blanker,
+        colorboxbase,
+        top=0.5mm,
+        bottom=0.5mm,
+        right=0mm,
+        frame hidden, % disable borders
+        colback=white
+    }
+}
+
+% Define styles specific to environment boxes
+\tcolorboxenvironment{theorem}{
+    boxbackground,
+    colback=colorBoxTheoremFill,
+    borderline west={0.6mm}{0pt}{colorBoxTheorem},
+}
+\tcolorboxenvironment{lemma}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxLemma},
+}
+\tcolorboxenvironment{corollary}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxCorollary},
+}
+\tcolorboxenvironment{proposition}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxProposition},
+}
+\tcolorboxenvironment{proof}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxProof},
+}
+\tcolorboxenvironment{proofsketch}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxProof},
+}
+
+\tcolorboxenvironment{definition}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxDefinition},
+}
+\tcolorboxenvironment{example}{
+    boxbackground,
+    colback=colorBoxExampleFill,
+    borderline west={0.6mm}{0pt}{colorBoxExample},
+}
+\tcolorboxenvironment{remark}{
+    boxbackground,
+    colback=colorBoxRemarkFill,
+    borderline west={0.6mm}{0pt}{colorBoxRemark},
+}
+\tcolorboxenvironment{problem}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxProblem},
+}
+\tcolorboxenvironment{custom_constraint}{
+    boxbackground,
+    colback=colorBoxConstraintFill,
+    borderline west={0.6mm}{0pt}{colorBoxConstraint},
+}
+
+\tcolorboxenvironment{displayquote}{
+    boxbackground,
+    colback=colorBoxQuoteFill,
+}
+
+%%%%%%%%%%%
+% More boxes
+%%%%%%%%%%%
+
+% Box for restating theorems/lemmas/... in the appendix
+\newtcolorbox{restatebox}{
+    boxline,
+    borderline west={0.6mm}{0pt}{colorBoxRestate},
+}
+
+% Box for assumptions in the beginning of the chapter
+\newtcolorbox{assumptionbox}{
+    colback=colorBoxAssumptionFill,
+    colframe=colorBoxAssumption,
+    fonttitle=\bfseries,
+    title=Assumptions
+}
+
+% Box for important lessons at the end of the chapter
+\newtcolorbox{summarybox}{
+    colback=colorBoxSummaryFill,
+    colframe=colorBoxSummary,
+    fonttitle=\bfseries,
+    title=Summary
+}
+
+% Define summary as itemization in summary box
+\newenvironment{summary}{%
+    \phantomsection% Needed for correct links with hyperref
+    \addcontentsline{toc}{section}{Summary}% Add into TOC
+    \begin{summarybox}\begin{itemize}[label=\ding{220}]}
+{\end{itemize}\end{summarybox}}
+
+
+%%%%%%%%%%%
+% Figures
+%%%%%%%%%%%
+
+% \vspace between stacked subfigures
+\newcommand*{\subvspace}{\vspace{0.5cm}}

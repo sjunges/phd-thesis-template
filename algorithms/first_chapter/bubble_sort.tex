@@ -1,0 +1,21 @@
+\begin{algorithmic}
+    \Function{BubbleSort}{List $L$}
+        \State $n \gets \Call{Length}{A}$
+        \State swapped $\gets$ true
+        \While{swapped}
+            \State swapped $\gets$ false
+            \State $i \gets 1$
+            \While{$i < n$}
+                \Comment{If pair is not sorted}
+                \If{$L[i-1] > L[i]$}
+                    \Comment{Swap}
+                    \State $t \gets A[i-1]$
+                    \State $A[i-1] \gets A[i]$
+                    \State $A[i] \gets t$
+                    \State swapped $\gets$ true
+                \EndIf
+                \State $i \gets i+1$
+            \EndWhile
+        \EndWhile
+    \EndFunction
+\end{algorithmic}

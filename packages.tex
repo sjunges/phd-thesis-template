@@ -1,0 +1,128 @@
+% Packages needed for the dissertation
+
+
+%%%%%%%%%%%
+% Fonts
+%%%%%%%%%%%
+\usepackage[libertine]{newtxmath}
+\usepackage[no-math]{fontspec}
+\usepackage{amsmath}
+\usepackage[thmmarks]{ntheorem}
+\usepackage{microtype} % Micro-typographic extensions
+
+% Language
+\usepackage[UKenglish]{babel} % English spelling
+%\usepackage[ngerman,UKenglish]{babel} % English spelling + German for Abstract
+% \usepackage[fixlanguage]{babelbib} % English literature
+% \selectbiblanguage{english}
+\usepackage[babel]{csquotes} % Quotations
+
+
+%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%
+\usepackage[
+    backend=biber,
+    defernumbers=true, % proper numbering in split bibliographies
+    giveninits=true,
+    style=alphabetic,
+    sortlocale=en_US,
+    url=false,
+    doi=true,
+    abbreviate=false,
+    hyperref=true,
+    backref=true,
+    isbn=false,
+    maxbibnames=99,
+    maxalphanames=4,
+    minalphanames=4
+    ]
+    {biblatex}
+
+
+%%%%%%%%%%%
+% Packages
+%%%%%%%%%%%
+
+\usepackage{xcolor} % Custom colors
+
+\usepackage{caption} % Hyperlink to top of figure instead of caption
+\usepackage{subcaption} % Subfigures
+
+\usepackage{import} % Handle imports from subfolders
+\usepackage{imakeidx} % Index
+
+\usepackage{paralist} % Compact lists within paragraphs, must be loaded before enumitem
+\usepackage{enumitem} % Customise lists
+
+\usepackage{booktabs} % Nicer tables
+\usepackage{multirow} % Cells spanning multiple rows
+\usepackage[para]{threeparttable} % Table with notes
+
+\usepackage{scrlayer-scrpage} % Instead obsolete scrpage2
+\usepackage{style/chapterthumb} % Chapter thumbs
+
+\usepackage{algorithm} % Float environment for algorithms
+\usepackage[noend]{algpseudocode} % Pseudo code algorithms, implicitly loads algorithmicx, option noend removes end constructs (e.g., end if, end while, etc.)
+
+\usepackage{tcolorbox} % Environment boxes
+\tcbset{shield externalize} % Avoid tikz externalize for tcolorboxes
+\tcbuselibrary{theorems,breakable,skins}
+
+\usepackage{setspace} % Provides line spacing (setstretch)
+
+\usepackage{marginnote} % For better marginpars
+
+\usepackage{ifthen} % If-then-else
+
+\usepackage{xspace} % Provides \xspace
+\usepackage{xpunctuate} % needed for package foreign, similar to xspace
+\usepackage[abbreviations,UKenglish]{foreign} % Provides commands for abbreviations (\eg, \ie, \cf, \etc)
+
+\usepackage{proof} % Provides \infer
+\usepackage{mleftright} % Provides \mleft, \mright for better spacing with operator parenthesis
+
+\usepackage{wasysym} % Additional symbols, e.g. \RHD
+\usepackage{pifont} % Additional symbols, e.g. \ding{} for black triangle
+\usepackage{nicefrac} % Provides \nicefrac
+\usepackage{cancel} % Provides \cancel
+
+\usepackage{siunitx} % Typesetting units
+\sisetup{
+    binary-units=true, % Binary units
+    retain-unity-mantissa=false, % Use 10^-3 instead of 1.0 * 10^-3
+    per-mode=fraction, % Use fractions instead of negative exponents
+    %quotient-mode=fraction,
+    fraction-function=\nicefrac, % Use nice fraction
+}
+
+
+\usepackage{pgffor} % Provides \foreach
+
+\usepackage{clipboard} % Used to restate text of theorems/lemmas/... in the appendix
+
+\usepackage{blindtext} % Only needed for demo text
+
+%%%%%%%%%%%
+% Tikz
+%%%%%%%%%%%
+\usepackage{shellesc} % Needed for shell-escape in lualatex
+\usepackage{tikz} % Tikz
+\usepackage{pgfplots} % Plots
+\usetikzlibrary{%
+    external, % tikz externalize
+    automata,
+    positioning,
+}
+\usepgfplotslibrary{colorbrewer} % Colorbrewer color schemes
+
+
+%%%%%%%%%%%
+% References
+%%%%%%%%%%%
+% Reference packages must be included in this order
+\usepackage{varioref} % References with page number (if not on same page)
+\usepackage[plainpages=false]{hyperref} % Hyperlinks, plainpages fixes problem with page numbering, hyperref should be included as late as possible
+\usepackage[capitalise, noabbrev]{cleveref} % Add reference type, must be included after hyperref
+
+\usepackage[stylemods={tree,topic},symbols,nomain]{glossaries-extra} % Glossary for list of symbols, must be included after hyperref

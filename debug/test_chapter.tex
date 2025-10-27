@@ -1,0 +1,125 @@
+% Test the configured macros, environments, colours, etc.
+\chapter{Tests}
+
+% Test colors
+\section{colors}
+\textcolor{CSblue}{This is color blue.}
+\textcolor{CSlightblue}{This is color light blue.}
+\textcolor{CSblack}{This is color black.}
+\textcolor{CSmagenta}{This is color magenta.}
+\textcolor{CSyellow}{This is color yellow.}
+\textcolor{CSgreen}{This is color green.}
+\textcolor{CSorange}{This is color orange.}
+\textcolor{CSred}{This is color red.}
+\textcolor{CSviolet}{This is color violet.}
+\textcolor{CSgrey}{This is color grey.}
+\textcolor{CSlightgrey}{This is color light grey.}
+
+
+% Test environments
+\section{Environments}
+
+\newcommand{\debugTestMath}{
+Let $f$ be analytic in the region $G$ except for the isolated 
+singularities $a_1,a_2,\dots,a_m$. If $\gamma$ is a closed 
+rectifiable curve in $G$ which does not pass through any of the 
+points $a_k$ and if $\gamma\approx 0$ in $G$, then
+\[
+  \frac{1}{2\pi i}\int_\gamma\! f = \sum_{k=1}^m 
+  n(\gamma;a_k)Res(f;a_k)\,.
+\]
+}
+
+\begin{theorem}[Residue Theorem]
+    \debugTestMath
+\end{theorem}
+\begin{lemma}[Residue Lemma]
+    \debugTestMath
+\end{lemma}
+\begin{corollary}[Residue Corollary]
+    \debugTestMath
+\end{corollary}
+\begin{proposition}[Residue Proposition]
+    \debugTestMath
+\end{proposition}
+\begin{definition}[Residue Definition]
+    \debugTestMath
+\end{definition}
+\begin{example}[Residue Example]
+    \debugTestMath
+\end{example}
+\begin{remark}[Residue Remark]
+    \debugTestMath
+\end{remark}
+\begin{problem}[Residue Problem]
+    \debugTestMath
+\end{problem}
+\begin{constraint}{Residue constraint}
+    \debugTestMath
+\end{constraint}
+
+\begin{assumptionbox}
+    \debugTestMath
+\end{assumptionbox}
+\begin{summary}
+    \item First item
+    \item Second item
+\end{summary}
+
+\begin{displayquote}[Lorem ipsum~\cite{DBLP:journals/x/Turing37}]
+    This is supposed to be a quote:
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\end{displayquote}
+
+\section{Macros}
+\label{test:macros}
+\todo{This is a test todo.}
+\vspace{3cm}
+
+\towrite{This is a todo to write further.}
+\vspace{3cm}
+
+\question{This should be a question, right?}
+\vspace{3cm}
+
+\feedback{This is feedback}
+\vspace{3cm}
+
+We highlight some \highlight{important text}.
+
+This is the standard keyword \keyword{keyA}.
+
+This is the more evolved keyword \keyword[ParentB]{keyB} with a parent.
+
+This is the even more evolved plural keyword \keywordpl[KeyCTest]{keysC}{keyC} with a parent.
+
+Next, we test symbols.
+We start by adding a new symbol topic \newsymboltopic{testtopic}{Test Topic} (which should not be visible).
+Then we add a new symbol $\newsymbol{testtopic}{testsymbol}{\alpha}{Description of the test symbol}$.
+And we add a second symbol $\newsymbol{testtopic}{testsymbol2}{\beta}{Description of the 2nd test symbol}$.
+
+
+\section{Colours}
+We test the colour of hyperlinks, e.g. to \vref{test:macros}.
+
+Or the colour of references \cite{DBLP:journals/x/Turing37}.
+
+\section{Tikz}
+
+\begin{figure}[t]
+    \tikzsetnextfilename{test_tikz_automata}
+    \begin{tikzpicture}
+
+        \node (q0) {};
+        \node[right=1cm of q0] (q1) {};
+
+        \path[]
+            (q0) edge[bend left]  node {$a$} (q1)
+            (q1) edge[bend left]  node {$b$} (q0)
+            (q0) edge[loop above] node {b}   (q0)
+            (q1) edge[loop above] node {b}   (q1)
+	;
+    \end{tikzpicture}%
+    \label{test:fig}
+    \caption{Tikz test for automata}
+\end{figure}%
