@@ -102,7 +102,8 @@ The following macros are especially useful:
 
 # Examples
 The following theses use some version of this template:
-- [Sebastian Junges](https://publications.rwth-aachen.de/record/783179)
-- [Shahid Khan](https://publications.rwth-aachen.de/record/854417)
-- [Matthias Volk](https://publications.rwth-aachen.de/record/956330)
-- [Tim Quatmann](https://publications.rwth-aachen.de/record/971553)
+- [Sebastian Junges](https://doi.org/10.18154/RWTH-2020-02348)
+- [Shahid Khan](https://doi.org/10.18154/RWTH-2022-09528)
+- [Matthias Volk](https://doi.org/10.18154/RWTH-2023-04092)
+- [Tim Quatmann](https://doi.org/10.18154/RWTH-2023-09669)
+- [Thom Badings](https://doi.org/10.54195/9789493296909)
