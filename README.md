@@ -94,16 +94,19 @@ The following macros are especially useful:
 \end{summary}
 ```
 
-
-
 # Authors
 - The first version of the template was developed by Sebastian Junges.
 - The template was extended by Matthias Volk.
 
 # Examples
 The following theses use some version of this template:
+
+## RWTH Aachen University
+- [Kevin Batz](https://doi.org/10.18154/RWTH-2025-00473)
 - [Sebastian Junges](https://doi.org/10.18154/RWTH-2020-02348)
 - [Shahid Khan](https://doi.org/10.18154/RWTH-2022-09528)
-- [Matthias Volk](https://doi.org/10.18154/RWTH-2023-04092)
 - [Tim Quatmann](https://doi.org/10.18154/RWTH-2023-09669)
+- [Matthias Volk](https://doi.org/10.18154/RWTH-2023-04092)
+
+## Radboud University
 - [Thom Badings](https://doi.org/10.54195/9789493296909)
